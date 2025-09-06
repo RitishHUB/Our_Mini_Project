@@ -1,0 +1,149 @@
+.main-container {
+  display: flex;
+  height: 100vh;
+  background: #f3f4f6;
+}
+
+
+.sidebar {
+  width: 200px;
+  background: #e5e7eb;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #16a34a;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar .menu button {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar .menu button:hover {
+  background: #16a34a;
+  color: white;
+  border-color: #16a34a;
+  transform: translateX(5px);
+}
+
+.sidebar .menu button:active {
+  transform: scale(0.97);
+}
+
+
+.content {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-btn {
+  background: #22c55e;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.3s;
+}
+
+.profile-btn:hover {
+  background: #16a34a;
+}
+
+
+.exam-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #a1ffc5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.exam-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.exam-card h3 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.open-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 90px;
+  background: #22c55e;
+  color: white;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.open-btn:hover {
+  background: #16a34a;
+}
+
+.exam-card:hover {
+  transform: translateY(-5px);
+}
+
+
+.exam-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* exactly 3 per row */
+  gap: 30px;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .exam-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .sidebar {
+    width: 150px;
+    padding: 15px;
+  }
+
+  .sidebar .menu button {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+}
