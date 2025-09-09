@@ -51,7 +51,7 @@ const Login = () => {
       </div>
 
       <div className="login-form">
-        <h3>Welcome to Learnx..!</h3>
+        <h3>Welcome to Learnixx..!</h3>
         <div className="toggle-btns">
           <button type="button" className="active">Login</button>
           <button type="button" onClick={() => navigate("/signup")}>Register</button>

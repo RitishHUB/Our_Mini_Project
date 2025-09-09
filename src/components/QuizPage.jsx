@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./QuizPage.css";
-import sampleImg from "../assets/Group464.png";
+import sampleImg from "../assets/logo.png";
 
 const quizData = {
   TNPSC: [
@@ -151,7 +151,7 @@ const QuizPage = () => {
       
       <header className="quiz-header">
         <img src={sampleImg} alt="learnX Logo" className="quiz-logo" />
-        <h1>LEARNX QUIZ</h1>
+        <h1>Learnixx QUIZ</h1>
       </header>
 
       {!selectedExam ? (

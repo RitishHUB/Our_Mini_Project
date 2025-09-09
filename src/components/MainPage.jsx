@@ -26,7 +26,7 @@ const MainPage = () => {
     <div className="main-container">
       {/* Sidebar */}
       <aside className="sidebar">
-        <h2 className="logo">LEARNX</h2>
+        <h2 className="logo">Learnixx</h2>
         <div className="menu">
           <button type="button">📚 E-Books</button>
           <button type="button" onClick={() => navigate("/pqp")}>📄 P&QP</button>

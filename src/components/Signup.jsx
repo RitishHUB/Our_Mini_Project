@@ -42,7 +42,7 @@ const Signup = () => {
       <div className="signup-image">
         <img src={sampleImg} alt="classroom" />
         <div className="signup-img-text">
-          <h2>Learnx is simply</h2>
+          <h2>Learnixx is simply</h2>
           <p>The Way To Next-Step</p>
         </div>
       </div>
