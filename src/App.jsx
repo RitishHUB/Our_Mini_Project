@@ -7,7 +7,7 @@ import Pqp from "./components/pqp.jsx";
 import QuizPage from "./components/QuizPage.jsx";
 import Books from "./components/Books.jsx";
 import AiPage from "./components/AiPage.jsx"; 
-import Profil from "./components/Profil.jsx";  // ✅ Import Profile page
+import Profil from "./components/dashboard/Dashboard.jsx";  // ✅ Import Profile page
 
 export default function App() {
   return (

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
-import sampleImg from "../assets/classroom3.jpg";
+import sampleImg from "../assets/classroom1.jpg";
+
+
+
 
 const Signup = () => {
   const navigate = useNavigate();

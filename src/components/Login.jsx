@@ -26,15 +26,17 @@ const Login = () => {
         setMessage("✅ " + data.message);
         setIsError(false);
 
+        // Save token + user in localStorage
         localStorage.setItem("learnxToken", data.token);
         localStorage.setItem("learnxUser", JSON.stringify(data.user));
 
+        // Navigate after success
         setTimeout(() => navigate("/main"), 2000);
       } else {
         setMessage("❌ " + data.message);
         setIsError(true);
       }
-    } catch {
+    } catch (err) {
       setMessage("❌ Server not responding");
       setIsError(true);
     }
@@ -59,16 +61,28 @@ const Login = () => {
 
         <form onSubmit={handleLogin}>
           <label>Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input 
+            type="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+          />
 
           <label>Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input 
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
 
           <button type="submit" className="submit-btn">Login</button>
         </form>
 
         {message && (
-          <p style={{ color: isError ? "red" : "green", marginTop: "10px" }}>{message}</p>
+          <p style={{ color: isError ? "red" : "green", marginTop: "10px" }}>
+            {message}
+          </p>
         )}
       </div>
     </div>
