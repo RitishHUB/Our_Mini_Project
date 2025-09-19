@@ -41,7 +41,7 @@ export default function AiPage({ token, onLogout }) {
   return (
     <div className="ai-container">
       <div className="header">
-        <h2>🤖 Ask LearnX AI</h2>
+        <h2>🤖 Ask LearniXX AI</h2>
         {onLogout && <button className="logout-btn" onClick={onLogout}>Logout</button>}
       </div>
 
