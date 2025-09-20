@@ -1,0 +1,44 @@
+.quiz-domain-container {
+  background: #1a331a;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 255, 128, 0.3);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  animation: slideUp 0.5s ease-in-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quiz-domain-container h2 {
+  margin-bottom: 1.5rem;
+  color: #aaffaa;
+  font-size: 1.8rem;
+}
+
+.domain-buttons button {
+  background: #00cc66;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  margin: 0.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.domain-buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #00ff99;
+}

@@ -1,12 +1,20 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+// 🔹 Auth Pages
 import Signup from "./components/Signup.jsx";
 import Login from "./components/Login.jsx";
+
+// 🔹 Main Features
 import MainPage from "./components/MainPage.jsx";
 import Pqp from "./components/pqp.jsx";
-import QuizPage from "./components/QuizPage.jsx";
+import MainQuiz from "./components/quiz/MainQuiz.jsx";
 import AiPage from "./components/AiPage.jsx"; 
+
+// 🔹 Dashboard
 import Profil from "./components/dashboard/Dashboard.jsx";  
+
+// 🔹 Books Section
 import Tnpsc from "./components/books/Tnpsc.jsx";
 import Upsc from "./components/books/Upsc.jsx";
 import Ctet from "./components/books/Ctet.jsx";
@@ -18,23 +26,31 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Default Route */}
         <Route path="/" element={<Navigate to="/signup" replace />} />
+
+        {/* Auth Routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+
+        {/* Main App Routes */}
         <Route path="/main" element={<MainPage />} />
         <Route path="/pqp" element={<Pqp />} />
-        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/quiz" element={<MainQuiz />} />
         <Route path="/ai" element={<AiPage />} />
-        <Route path="/profile" element={<Profil />} /> {/* ✅ Profile route */}
+        <Route path="/profile" element={<Profil />} />
+
+        {/* Books Section */}
         <Route path="/books/tnpsc" element={<Tnpsc />} />
         <Route path="/books/upsc" element={<Upsc />} />
         <Route path="/books/ctet" element={<Ctet />} />
         <Route path="/books/ssc" element={<Ssc />} />
         <Route path="/books/rrb" element={<Rrb />} />
         <Route path="/books/gate" element={<Gate />} />
+
+        {/* Catch-all Route */}
         <Route path="*" element={<Navigate to="/signup" replace />} />
       </Routes>
     </BrowserRouter>
   );
 }
-

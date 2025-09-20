@@ -1,63 +1,65 @@
 .main-container {
   display: flex;
   height: 100vh;
-  background: #f3f4f6;
+  background: #f9fafb;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #111827;
 }
 
-
+/* Sidebar */
 .sidebar {
-  width: 200px;
-  background: #e5e7eb;
-  padding: 20px;
+  width: 240px;
+  background: linear-gradient(180deg, #16a34a, #22c55e);
+  padding: 25px 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
+  color: white;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
-  color: #16a34a;
+  text-align: center;
+  letter-spacing: 1px;
 }
 
 .sidebar .menu {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
 .sidebar .menu button {
-  background: #fff;
-  border: 1px solid #d1d5db;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 15px;
   cursor: pointer;
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  color: white;
   transition: all 0.3s ease;
 }
 
 .sidebar .menu button:hover {
-  background: #16a34a;
-  color: white;
-  border-color: #16a34a;
+  background: white;
+  color: #16a34a;
   transform: translateX(5px);
+  font-weight: 600;
 }
 
-.sidebar .menu button:active {
-  transform: scale(0.97);
-}
-
-
+/* Main Content */
 .content {
   flex: 1;
-  background: #fff;
-  padding: 20px;
+  background: #f9fafb;
+  padding: 30px;
+  overflow-y: auto;
 }
-
 
 .header {
   display: flex;
@@ -66,85 +68,98 @@
   margin-bottom: 30px;
 }
 
+.header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
 .profile-btn {
-  background: #22c55e;
+  background: #16a34a;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
+  padding: 10px 16px;
+  border-radius: 8px;
   cursor: pointer;
   color: white;
-  transition: background 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .profile-btn:hover {
-  background: #16a34a;
+  background: #15803d;
+  transform: scale(1.05);
 }
 
-
+/* Exam Cards */
 .exam-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 10px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
   text-align: center;
-  border: 1px solid #a1ffc5;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
 }
 
 .exam-card img {
   width: 80px;
   height: 80px;
   object-fit: contain;
-  margin-bottom: 10px;
-  border-radius: 10px;
+  margin-bottom: 15px;
+  border-radius: 12px;
 }
 
 .exam-card h3 {
-  font-size: 16px;
-  margin: 10px 0;
+  font-size: 18px;
+  margin: 12px 0;
+  font-weight: 600;
+  color: #111827;
 }
 
 .open-btn {
   display: inline-block;
-  margin-top: 10px;
-  padding: 8px 90px;
-  background: #22c55e;
+  margin-top: 12px;
+  padding: 10px 50px;
+  background: #16a34a;
   color: white;
-  border-radius: 20px;
+  border-radius: 25px;
   text-decoration: none;
   font-size: 14px;
-  transition: background 0.3s;
-  
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .open-btn:hover {
-  background: #16a34a;
+  background: #15803d;
+  transform: translateY(-2px);
 }
 
 .exam-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
-
+/* Grid Layout */
 .exam-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* exactly 3 per row */
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
 }
 
-/* Responsive for mobile */
+/* Responsive */
 @media (max-width: 768px) {
-  .exam-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-
   .sidebar {
-    width: 150px;
-    padding: 15px;
+    width: 180px;
+    padding: 20px;
   }
 
   .sidebar .menu button {
     font-size: 14px;
-    padding: 8px 10px;
+    padding: 10px;
+  }
+
+  .header h1 {
+    font-size: 20px;
   }
 }
