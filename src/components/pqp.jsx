@@ -65,9 +65,16 @@ const exams = [
 ];
 
 const Pqp = () => {
+  const handleQuit = () => {
+    window.location.href = "/main"; // redirect to homepage or login
+  };
+
   return (
     <div className="pqp-container">
       <header className="pqp-header">
+        <button className="quit-btn" type="button" onClick={handleQuit}>
+          ❌ Quit
+        </button>
         <h2>P&amp;QP</h2>
         <button className="profile-btn" type="button">👤</button>
       </header>

@@ -94,6 +94,21 @@
   background-color: #095235;
 }
 
+.quit-btn {
+  background-color: #ff4d4d;
+  color: #fff;
+  font-size: 1rem;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.quit-btn:hover {
+  background-color: #cc0000;
+}
+
+
 /* Responsive */
 @media (max-width: 600px) {
   .pqp-header h2 {
@@ -118,3 +133,4 @@
     padding: 5px 10px;
   }
 }
+
