@@ -1,5 +1,5 @@
 /* Container */
-.tnpsc-container {
+.ctet-container {
   padding: 30px;
   max-width: 1100px;
   margin: auto;
@@ -9,7 +9,7 @@
 }
 
 /* Title */
-.tnpsc-title {
+.ctet-title {
   text-align: center;
   font-size: 2.2rem;
   margin-bottom: 30px;
@@ -28,7 +28,7 @@
   color: #2c3e50;
 }
 
-/* Cards */
+/* Cards / Grid */
 .book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -57,7 +57,7 @@
   color: #333;
 }
 
-/* Buttons (Green) */
+/* Buttons */
 .open-btn {
   background: #27ae60;
   color: white;
@@ -94,6 +94,8 @@
 .pdf-frame {
   border: none;
   border-radius: 8px;
+  width: 100%;
+  height: 600px;
 }
 
 /* Animations */
