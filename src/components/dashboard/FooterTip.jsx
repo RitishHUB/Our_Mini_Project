@@ -1,10 +1,11 @@
 import React from 'react';
 
-const FooterTip = ({ tip }) => (
-  <div className="footer">
-    <h3>💡 Tip of the Day</h3>
-    <p style={{ margin: '10px 0 0 0', fontSize: '1rem', opacity: '0.95' }}>{tip}</p>
-  </div>
-);
+const FooterTip = ({ tip }) => {
+  return (
+    <footer className="footer-tip card">
+      <h3>{tip}</h3>
+    </footer>
+  );
+};
 
 export default FooterTip;

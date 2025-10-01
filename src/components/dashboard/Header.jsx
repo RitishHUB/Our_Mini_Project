@@ -1,16 +1,16 @@
 import React from 'react';
-import { User } from 'lucide-react';
 
-const Header = () => (
-  <div className="header">
-    <div className="profile-pic">
-      <User size={28} />
-    </div>
-    <div className="welcome-text">
-      <h1>Welcome back, Sarah! 👋</h1>
-      <p>Ready to continue your learning journey?</p>
-    </div>
-  </div>
-);
+const Header = () => {
+  return (
+    <header className="header">
+      <div className="logo">📘 LearnX</div>
+      <input className="search-bar" type="text" placeholder="Search courses, topics..." />
+      <div className="profile-menu">
+        <span className="profile-icon">👤</span>
+        <span className="profile-name">Hi, Ritish</span>
+      </div>
+    </header>
+  );
+};
 
 export default Header;
