@@ -91,6 +91,11 @@ const cglSyllabus = [
 
 const SscCgl = () => {
   const [selectedLink, setSelectedLink] = useState(null);
+  const [showAiDrawer, setShowAiDrawer] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const viewerRef = useRef(null);
 
   const handleOpen = (link) => {
@@ -98,6 +103,25 @@ const SscCgl = () => {
     setTimeout(() => {
       viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 200);
+  };
+
+  const askAI = async () => {
+    if (!question.trim()) return;
+    setLoading(true);
+    setAnswer("");
+    try {
+      const res = await fetch("http://localhost:5000/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: question }),
+      });
+      const data = await res.json();
+      setAnswer(data.answer || "No response from AI");
+      setQuestion("");
+    } catch (err) {
+      setAnswer("Error: " + err.message);
+    }
+    setLoading(false);
   };
 
   return (
@@ -154,6 +178,33 @@ const SscCgl = () => {
             className="pdf-frame"
           ></iframe>
         </div>
+      )}
+
+      {/* Floating AI Button */}
+      <div className="floating-ai-btn" onClick={() => setShowAiDrawer(true)}>🤖</div>
+
+      {/* AI Drawer */}
+      {showAiDrawer && (
+        <>
+          <div className="drawer-overlay" onClick={() => setShowAiDrawer(false)}></div>
+          <div className={`ai-drawer ${showAiDrawer ? "open" : ""}`}>
+            <div className="ai-header">
+              🤖 SSC AI Helper
+              <button className="close-btn" onClick={() => setShowAiDrawer(false)}>×</button>
+            </div>
+            <div className="ai-content">
+              <textarea
+                placeholder="Type your doubt..."
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+              />
+              <button onClick={askAI} disabled={loading}>
+                {loading ? "Thinking..." : "Ask"}
+              </button>
+              {answer && <div className="ai-response bot-msg">{answer}</div>}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

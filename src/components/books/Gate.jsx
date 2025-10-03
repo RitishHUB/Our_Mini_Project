@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./Gate.css";
 
-// ✅ GATE Books / Study Material (placeholders)
+// GATE Books / Study Material
 const gateBooks = [
   {
     class: "Engineering Mathematics",
@@ -31,7 +31,7 @@ const gateBooks = [
   },
 ];
 
-// ✅ GATE Syllabus
+// GATE Syllabus
 const syllabus = [
   { title: "Engineering Mathematics", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "General Aptitude", link: "https://drive.google.com/file/d/empty_link_id/preview" },
@@ -43,6 +43,10 @@ const syllabus = [
 
 const Gate = () => {
   const [selectedLink, setSelectedLink] = useState(null);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
   const viewerRef = useRef(null);
 
   const handleOpen = (link) => {
@@ -50,6 +54,25 @@ const Gate = () => {
     setTimeout(() => {
       viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 200);
+  };
+
+  const askAI = async () => {
+    if (!question.trim()) return;
+    setLoading(true);
+    setAnswer("");
+    try {
+      const res = await fetch("http://localhost:5000/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: question }),
+      });
+      const data = await res.json();
+      setAnswer(data.answer || "No response from AI");
+      setQuestion("");
+    } catch (err) {
+      setAnswer("Error: " + err.message);
+    }
+    setLoading(false);
   };
 
   return (
@@ -61,8 +84,8 @@ const Gate = () => {
         <div key={i} className="class-section">
           <h2 className="class-title">{group.class}</h2>
           <div className="book-grid">
-            {group.subjects.map((book, index) => (
-              <div key={index} className="book-card">
+            {group.subjects.map((book, idx) => (
+              <div key={idx} className="book-card">
                 <h3 className="book-name">{book.title}</h3>
                 <button className="open-btn" onClick={() => handleOpen(book.link)}>
                   Open Book
@@ -102,6 +125,31 @@ const Gate = () => {
           ></iframe>
         </div>
       )}
+
+      {/* Floating AI Button */}
+      <div className="floating-ai-btn" onClick={() => setAiOpen(!aiOpen)}>🤖</div>
+
+      {/* AI Drawer */}
+      <div className={`ai-drawer ${aiOpen ? "open" : ""}`}>
+        <div className="ai-header">
+          Ask GATE AI
+          <button className="close-btn" onClick={() => setAiOpen(false)}>×</button>
+        </div>
+        <div className="ai-content">
+          <textarea
+            placeholder="Type your doubt..."
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+          <button onClick={askAI} disabled={loading}>
+            {loading ? "Thinking..." : "Ask"}
+          </button>
+          {answer && <div className="ai-response"><strong>AI:</strong> <div className="bot-msg">{answer}</div></div>}
+        </div>
+      </div>
+
+      {/* Overlay */}
+      {aiOpen && <div className="drawer-overlay" onClick={() => setAiOpen(false)}></div>}
     </div>
   );
 };

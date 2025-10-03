@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./Upsc.css";
 
-// ✅ UPSC Books / Study Material (placeholders)
 const upscBooks = [
   {
     class: "Prelims – General Studies",
@@ -30,11 +29,11 @@ const upscBooks = [
       { title: "History", link: "https://drive.google.com/file/d/empty_link_id/preview" },
     ],
   },
+
 ];
 
-// ✅ UPSC Syllabus
 const syllabus = [
-  { title: "History of India", link: "https://drive.google.com/file/d/empty_link_id/preview" },
+   { title: "History of India", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Indian Polity", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Geography", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Economy", link: "https://drive.google.com/file/d/empty_link_id/preview" },
@@ -43,8 +42,14 @@ const syllabus = [
   { title: "Optional Subjects", link: "https://drive.google.com/file/d/empty_link_id/preview" },
 ];
 
-const Upsc = () => {
+const Upsc = ({ token, onLogout }) => {
   const [selectedLink, setSelectedLink] = useState(null);
+  const [isAiOpen, setIsAiOpen] = useState(false);
+
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const viewerRef = useRef(null);
 
   const handleOpen = (link) => {
@@ -52,6 +57,37 @@ const Upsc = () => {
     setTimeout(() => {
       viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 200);
+  };
+
+  const askAI = async () => {
+    if (!question.trim()) return;
+    setLoading(true);
+    setAnswer("");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : undefined
+        },
+        body: JSON.stringify({ prompt: question }),
+      });
+
+      let data;
+      try {
+        data = await res.json();
+      } catch (err) {
+        data = { answer: "Backend returned invalid response (HTML or error)" };
+      }
+
+      setAnswer(data.answer || "No response from AI");
+      setQuestion("");
+    } catch (err) {
+      setAnswer("Error: " + err.message);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -104,6 +140,40 @@ const Upsc = () => {
           ></iframe>
         </div>
       )}
+
+      {/* Floating AI Button */}
+      <div
+        className="floating-ai-btn"
+        onClick={() => setIsAiOpen(!isAiOpen)}
+      >
+        🤖
+      </div>
+
+      {/* AI Side Drawer */}
+      <div className={`ai-drawer ${isAiOpen ? "open" : ""}`}>
+        <div className="ai-header">
+          <h2>AI Assistant</h2>
+          {onLogout && <button className="close-btn" onClick={() => setIsAiOpen(false)}>✖</button>}
+        </div>
+        <div className="ai-content">
+          <textarea
+            placeholder="Type your question..."
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+          <button onClick={askAI} disabled={loading}>
+            {loading ? "Thinking..." : "Ask"}
+          </button>
+          {answer && (
+            <div className="ai-response">
+              <strong>AI:</strong> {answer}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Overlay */}
+      {isAiOpen && <div className="drawer-overlay" onClick={() => setIsAiOpen(false)}></div>}
     </div>
   );
 };

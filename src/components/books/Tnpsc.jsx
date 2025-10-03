@@ -1,9 +1,8 @@
 import React, { useState, useRef } from "react";
 import "./Tnpsc.css";
 
-// ✅ Books for Classes 5 to 12 (placeholders for links)
 const tnpscBooks = [
-  {
+   {
     class: "5th Standard",
     subjects: [
       { title: "5th Tamil", link: "https://drive.google.com/file/d/empty_link_id/preview" },
@@ -92,11 +91,11 @@ const tnpscBooks = [
       { title: "12th Commerce", link: "https://drive.google.com/file/d/empty_link_id/preview" },
     ],
   },
+
 ];
 
-// ✅ TNPSC Syllabus Section
 const syllabus = [
-  { title: "History of India", link: "https://drive.google.com/file/d/empty_link_id/preview" },
+ { title: "History of India", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Polity", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Geography", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Economics", link: "https://drive.google.com/file/d/empty_link_id/preview" },
@@ -105,8 +104,14 @@ const syllabus = [
   { title: "Language Paper (Tamil / English)", link: "https://drive.google.com/file/d/empty_link_id/preview" },
 ];
 
-const Tnpsc = () => {
+
+const Tnpsc = ({ token, onLogout }) => {
   const [selectedLink, setSelectedLink] = useState(null);
+  const [isAiOpen, setIsAiOpen] = useState(false); // AI drawer state
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const viewerRef = useRef(null);
 
   const handleOpen = (link) => {
@@ -116,11 +121,42 @@ const Tnpsc = () => {
     }, 200);
   };
 
+  const askAI = async () => {
+    if (!question.trim()) return;
+    setLoading(true);
+    setAnswer("");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : undefined
+        },
+        body: JSON.stringify({ prompt: question }),
+      });
+
+      let data;
+      try {
+        data = await res.json();
+      } catch (err) {
+        data = { answer: "Backend returned invalid response (HTML or error)" };
+      }
+
+      setAnswer(data.answer || "No response from AI");
+      setQuestion("");
+    } catch (err) {
+      setAnswer("Error: " + err.message);
+    }
+
+    setLoading(false);
+  };
+
   return (
     <div className="tnpsc-container">
       <h1 className="tnpsc-title">📚 TNPSC Study Zone</h1>
 
-      {/* Books Section (5th–12th) */}
+      {/* Books Section */}
       {tnpscBooks.map((group, i) => (
         <div key={i} className="class-section">
           <h2 className="class-title">{group.class}</h2>
@@ -166,6 +202,40 @@ const Tnpsc = () => {
           ></iframe>
         </div>
       )}
+
+      {/* Floating AI Button */}
+      <div
+        className="floating-ai-btn"
+        onClick={() => setIsAiOpen(!isAiOpen)}
+      >
+        🤖
+      </div>
+
+      {/* AI Side Drawer with Chat */}
+      <div className={`ai-drawer ${isAiOpen ? "open" : ""}`}>
+        <div className="ai-header">
+          <h2>AI Assistant</h2>
+          {onLogout && <button className="close-btn" onClick={() => setIsAiOpen(false)}>✖</button>}
+        </div>
+        <div className="ai-content">
+          <textarea
+            placeholder="Type your question..."
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+          <button onClick={askAI} disabled={loading}>
+            {loading ? "Thinking..." : "Ask"}
+          </button>
+          {answer && (
+            <div className="ai-response">
+              <strong>AI:</strong> {answer}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Overlay */}
+      {isAiOpen && <div className="drawer-overlay" onClick={() => setIsAiOpen(false)}></div>}
     </div>
   );
 };
