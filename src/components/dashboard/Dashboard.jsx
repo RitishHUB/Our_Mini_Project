@@ -7,6 +7,7 @@ import Achievements from './Achievements';
 import CalendarHeatmap from './CalendarHeatmap';
 import QuickActions from './QuickActions';
 import FooterTip from './FooterTip';
+import StudyChart from './StudyChart';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -40,8 +41,11 @@ const Dashboard = () => {
       <StudyTimer />
       <Achievements badges={badges} />
       <CalendarHeatmap />
+      
+      <StudyChart />
       <QuickActions />
       <FooterTip tip={dailyTip} />
+      
     </div>
   );
 };
