@@ -48,42 +48,52 @@ const QuizPage = ({ quiz, finishQuiz }) => {
 
   return (
     <div className="quiz-page-container">
-      <div className="progress-bar">
-        <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-      </div>
+      <div className="quiz-box">
+        {/* Progress Bar */}
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
 
-      <div className="timer">⏳ {timeLeft}s</div>
+        {/* Timer */}
+        <div className="timer">⏳ {timeLeft}s</div>
 
-      <h3>
-        Question {currentIndex + 1} / {quiz.length}
-      </h3>
-      <p className="question-text">{quiz[currentIndex].question}</p>
+        {/* Question */}
+        <h3>
+          Question {currentIndex + 1} / {quiz.length}
+        </h3>
+        <p className="question-text">{quiz[currentIndex].question}</p>
 
-      <div className="options">
-        {quiz[currentIndex].options.map((opt, idx) => (
+        {/* Options */}
+        <div className="options">
+          {quiz[currentIndex].options.map((opt, idx) => (
+            <button
+              key={idx}
+              className={`option-btn ${
+                selectedOption === opt ? "selected" : ""
+              }`}
+              onClick={() => handleOptionSelect(opt)}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="nav-buttons">
           <button
-            key={idx}
-            className={`option-btn ${
-              selectedOption === opt ? "selected" : ""
-            }`}
-            onClick={() => handleOptionSelect(opt)}
+            className="nav-btn"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
           >
-            {opt}
+            ⬅ Previous
           </button>
-        ))}
-      </div>
-
-      <div className="nav-buttons">
-        <button
-          className="nav-btn"
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-        >
-          ⬅ Previous
-        </button>
-        <button className="nav-btn" onClick={handleNext}>
-          {currentIndex + 1 === quiz.length ? "✅ Finish" : "Next ➡"}
-        </button>
+          <button className="nav-btn" onClick={handleNext}>
+            {currentIndex + 1 === quiz.length ? "✅ Finish" : "Next ➡"}
+          </button>
+        </div>
       </div>
     </div>
   );
