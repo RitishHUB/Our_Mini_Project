@@ -105,6 +105,8 @@ const syllabus = [
 ];
 
 
+
+
 const Tnpsc = ({ token, onLogout }) => {
   const [selectedLink, setSelectedLink] = useState(null);
   const [isAiOpen, setIsAiOpen] = useState(false); // AI drawer state
@@ -114,12 +116,39 @@ const Tnpsc = ({ token, onLogout }) => {
 
   const viewerRef = useRef(null);
 
-  const handleOpen = (link) => {
-    setSelectedLink(link);
-    setTimeout(() => {
-      viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 200);
-  };
+ const handleOpen = async (book) => {
+  try {
+    let bookId;
+
+    // Decide which bookId to fetch from backend
+    if (book.title === "10th Tamil") {
+      bookId = "1";
+    } else if (book.title === "10th English") {
+      bookId = "2";
+    } else {
+      // For all other books, just pick 10th Tamil as default
+      bookId = "1";
+    }
+
+    const res = await fetch(`http://localhost:5000/api/books/${bookId}`);
+    const data = await res.json();
+
+    if (data.url) {
+      setSelectedLink(data.url);
+    } else {
+      alert("Book URL not found");
+    }
+  } catch (err) {
+    console.error("Error fetching book:", err);
+    alert("Failed to fetch book from backend");
+  }
+
+  // Scroll viewer into view
+  setTimeout(() => {
+    viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 200);
+};
+
 
   const askAI = async () => {
     if (!question.trim()) return;
