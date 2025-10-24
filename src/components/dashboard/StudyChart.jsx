@@ -1,51 +1,52 @@
 import React, { useState } from 'react';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import {
+  BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip,
+  CartesianGrid, Legend, ResponsiveContainer, PieChart, Pie, Cell
+} from 'recharts';
 import './StudyChart.css';
 
 const StudyChart = () => {
-  const [view, setView] = useState('weekly'); // weekly or monthly
-
-  // Weekly study hours
-  const weeklyData = [
-    { day: 'Mon', hours: 2 },
-    { day: 'Tue', hours: 3 },
-    { day: 'Wed', hours: 1.5 },
-    { day: 'Thu', hours: 4 },
-    { day: 'Fri', hours: 2.5 },
-    { day: 'Sat', hours: 5 },
-    { day: 'Sun', hours: 3 }
-  ];
-
-  // Monthly study hours
-  const monthlyData = [
-    { month: 'Jan', hours: 60 },
-    { month: 'Feb', hours: 72 },
-    { month: 'Mar', hours: 80 },
-    { month: 'Apr', hours: 65 },
-    { month: 'May', hours: 90 },
-    { month: 'Jun', hours: 75 },
-  ];
-
-  // Overall activity stats for PieChart
-  const activityData = [
-    { name: 'Books', value: 40 },
-    { name: 'Quizzes', value: 30 },
-    { name: 'AI Learning', value: 30 },
-  ];
+  const [view, setView] = useState('weekly');
 
   const COLORS = ['#667eea', '#ff7f50', '#4caf50'];
+
+  // 🔹 Dummy weekly data
+  const weeklyData = [
+    { day: 'Sun', hours: 2 },
+    { day: 'Mon', hours: 3.5 },
+    { day: 'Tue', hours: 1.8 },
+    { day: 'Wed', hours: 4 },
+    { day: 'Thu', hours: 2.2 },
+    { day: 'Fri', hours: 3 },
+    { day: 'Sat', hours: 5 }
+  ];
+
+  // 🔹 Dummy monthly data
+  const monthlyData = [
+    { month: 'Jan', hours: 45 },
+    { month: 'Feb', hours: 52 },
+    { month: 'Mar', hours: 60 },
+    { month: 'Apr', hours: 48 },
+    { month: 'May', hours: 70 },
+    { month: 'Jun', hours: 55 }
+  ];
+
+  // 🔹 Dummy activity breakdown
+  const activityData = [
+    { name: 'Books', value: 65 },
+    { name: 'Quizzes', value: 40 },
+    { name: 'AI Learning', value: 35 }
+  ];
 
   return (
     <div className="study-chart card">
       <h2 className="section-title">Study Progress 📊</h2>
 
-      {/* View toggle buttons */}
       <div className="chart-controls">
         <button className={view === 'weekly' ? 'active' : ''} onClick={() => setView('weekly')}>Weekly</button>
         <button className={view === 'monthly' ? 'active' : ''} onClick={() => setView('monthly')}>Monthly</button>
       </div>
 
-      {/* Charts */}
       <div className="chart-wrapper">
         <div className="main-chart">
           {view === 'weekly' && (
@@ -75,7 +76,6 @@ const StudyChart = () => {
           )}
         </div>
 
-        {/* PieChart for activity breakdown */}
         <div className="pie-chart">
           <h3 className="pie-title">Overall Activity 🥧</h3>
           <ResponsiveContainer width="100%" height={300}>

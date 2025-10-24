@@ -6,10 +6,18 @@ const CalendarHeatmap = () => {
   const month = today.getMonth(); // 0-indexed
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  // Simulate study activity: 0 (no study) to 3 (intense study)
-  const activityLevels = Array.from({ length: daysInMonth }, () =>
-    Math.floor(Math.random() * 4)
-  );
+  // Dummy data: 4 days with specific intensity
+  const dummyData = {
+    2: 1,  // Light study on 2nd
+    5: 2,  // Moderate study on 5th
+    12: 3, // Intense study on 12th
+    20: 2  // Moderate study on 20th
+  };
+
+  const activityLevels = Array.from({ length: daysInMonth }, (_, i) => {
+    const day = i + 1;
+    return dummyData[day] ?? 0;
+  });
 
   const getColor = (level) => {
     switch (level) {

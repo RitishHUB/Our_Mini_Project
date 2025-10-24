@@ -11,13 +11,20 @@ const StudyTimer = () => {
   const [time, setTime] = useState(presets[0].value);
   const [isRunning, setIsRunning] = useState(false);
   const [notes, setNotes] = useState('');
-  const [savedNotes, setSavedNotes] = useState([]);
-  const [sessionHistory, setSessionHistory] = useState([]);
+  const [savedNotes, setSavedNotes] = useState([
+    { text: "Focused well on math problems", time: "10:15 AM" },
+    { text: "Got distracted by phone, need to mute notifications", time: "11:05 AM" },
+    { text: "Completed 2 chapters of biology", time: "12:30 PM" }
+  ]);
+  const [sessionHistory, setSessionHistory] = useState([
+    { duration: 25, endTime: "10:30 AM" },
+    { duration: 50, endTime: "11:30 AM" },
+    { duration: 90, endTime: "01:00 PM" }
+  ]);
   const [selectedPreset, setSelectedPreset] = useState(presets[0].value);
   const [darkMode, setDarkMode] = useState(false);
   const [customTime, setCustomTime] = useState('');
 
-  // Timer effect
   useEffect(() => {
     let timer;
     if (isRunning && time > 0) {
@@ -46,7 +53,7 @@ const StudyTimer = () => {
     setIsRunning(false);
     const endTime = new Date().toLocaleTimeString();
     setSessionHistory(prev => [...prev, { duration: selectedPreset / 60, endTime }]);
-    saveNote(notes); // auto-save notes
+    saveNote(notes);
     setNotes('');
     playSound();
     alert("Session complete! Great job 🎉");
