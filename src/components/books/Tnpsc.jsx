@@ -1,11 +1,16 @@
 import React, { useState, useRef } from "react";
 import "./Tnpsc.css";
 
+/**
+ * Data: tnpscBooks (5th - 12th) and syllabus
+ * - Keep the Drive preview links in `link`
+ * - If link is "empty_link_id" it will show an alert saying "No link available"
+ */
 const tnpscBooks = [
-   {
+  {
     class: "5th Standard",
     subjects: [
-      { title: "5th Tamil", link: "https://drive.google.com/file/d/empty_link_id/preview" },
+      { title: "5th Tamil", link: "https://drive.google.com/file/d/1C1LkVztftT-sxim0FtD1BQn6Wg6FBo8p/preview" },
       { title: "5th English", link: "https://drive.google.com/file/d/empty_link_id/preview" },
       { title: "5th Science", link: "https://drive.google.com/file/d/empty_link_id/preview" },
       { title: "5th Social Science", link: "https://drive.google.com/file/d/empty_link_id/preview" },
@@ -91,11 +96,10 @@ const tnpscBooks = [
       { title: "12th Commerce", link: "https://drive.google.com/file/d/empty_link_id/preview" },
     ],
   },
-
 ];
 
 const syllabus = [
- { title: "History of India", link: "https://drive.google.com/file/d/empty_link_id/preview" },
+  { title: "History of India", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Polity", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Geography", link: "https://drive.google.com/file/d/empty_link_id/preview" },
   { title: "Economics", link: "https://drive.google.com/file/d/empty_link_id/preview" },
@@ -104,52 +108,41 @@ const syllabus = [
   { title: "Language Paper (Tamil / English)", link: "https://drive.google.com/file/d/empty_link_id/preview" },
 ];
 
-
-
-
 const Tnpsc = ({ token, onLogout }) => {
+  // state
   const [selectedLink, setSelectedLink] = useState(null);
-  const [isAiOpen, setIsAiOpen] = useState(false); // AI drawer state
+  const [isAiOpen, setIsAiOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
 
   const viewerRef = useRef(null);
 
- const handleOpen = async (book) => {
-  try {
-    let bookId;
-
-    // Decide which bookId to fetch from backend
-    if (book.title === "10th Tamil") {
-      bookId = "1";
-    } else if (book.title === "10th English") {
-      bookId = "2";
-    } else {
-      // For all other books, just pick 10th Tamil as default
-      bookId = "1";
+  /**
+   * handleOpen
+   * - No backend calls.
+   * - Accepts a book object { title, link } or syllabus item.
+   * - If link contains 'empty_link_id' or falsy => alert.
+   */
+  const handleOpen = (book) => {
+    if (!book || !book.link || book.link.includes("empty_link_id")) {
+      alert("No link available for this book");
+      return;
     }
 
-    const res = await fetch(`http://localhost:5000/api/books/${bookId}`);
-    const data = await res.json();
+    setSelectedLink(book.link);
 
-    if (data.url) {
-      setSelectedLink(data.url);
-    } else {
-      alert("Book URL not found");
-    }
-  } catch (err) {
-    console.error("Error fetching book:", err);
-    alert("Failed to fetch book from backend");
-  }
+    // scroll to viewer
+    setTimeout(() => {
+      viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 200);
+  };
 
-  // Scroll viewer into view
-  setTimeout(() => {
-    viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 200);
-};
-
-
+  /**
+   * askAI
+   * - Sends prompt to backend AI endpoint (kept as-is from your code).
+   * - If you don't have backend, this will fail — that's expected unless you run your server.
+   */
   const askAI = async () => {
     if (!question.trim()) return;
     setLoading(true);
@@ -160,7 +153,7 @@ const Tnpsc = ({ token, onLogout }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : undefined
+          Authorization: token ? `Bearer ${token}` : undefined,
         },
         body: JSON.stringify({ prompt: question }),
       });
@@ -193,7 +186,9 @@ const Tnpsc = ({ token, onLogout }) => {
             {group.subjects.map((book, index) => (
               <div key={index} className="book-card">
                 <h3 className="book-name">{book.title}</h3>
-                <button className="open-btn" onClick={() => handleOpen(book.link)}>
+
+                {/* Correct button: pass the whole book object */}
+                <button className="open-btn" onClick={() => handleOpen(book)}>
                   Open Book
                 </button>
               </div>
@@ -209,7 +204,7 @@ const Tnpsc = ({ token, onLogout }) => {
           {syllabus.map((item, idx) => (
             <div key={idx} className="book-card">
               <h3 className="book-name">{item.title}</h3>
-              <button className="open-btn" onClick={() => handleOpen(item.link)}>
+              <button className="open-btn" onClick={() => handleOpen(item)}>
                 Open Syllabus
               </button>
             </div>
@@ -233,19 +228,19 @@ const Tnpsc = ({ token, onLogout }) => {
       )}
 
       {/* Floating AI Button */}
-      <div
-        className="floating-ai-btn"
-        onClick={() => setIsAiOpen(!isAiOpen)}
-      >
+      <div className="floating-ai-btn" onClick={() => setIsAiOpen(!isAiOpen)}>
         🤖
       </div>
 
-      {/* AI Side Drawer with Chat */}
+      {/* AI Side Drawer */}
       <div className={`ai-drawer ${isAiOpen ? "open" : ""}`}>
         <div className="ai-header">
           <h2>AI Assistant</h2>
-          {onLogout && <button className="close-btn" onClick={() => setIsAiOpen(false)}>✖</button>}
+          <button className="close-btn" onClick={() => setIsAiOpen(false)}>
+            ✖
+          </button>
         </div>
+
         <div className="ai-content">
           <textarea
             placeholder="Type your question..."
@@ -255,6 +250,7 @@ const Tnpsc = ({ token, onLogout }) => {
           <button onClick={askAI} disabled={loading}>
             {loading ? "Thinking..." : "Ask"}
           </button>
+
           {answer && (
             <div className="ai-response">
               <strong>AI:</strong> {answer}
