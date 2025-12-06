@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import sampleImg from "../assets/classroom1.jpg";
 
-
-
-
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -18,7 +15,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/register", {
+      const res = await fetch("https://our-mini-project-backend.onrender.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password }),

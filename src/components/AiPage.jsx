@@ -12,7 +12,7 @@ export default function AiPage({ token, onLogout }) {
     setAnswer("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/ai", {
+      const res = await fetch("https://our-mini-project-backend.onrender.com/api/ai", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +21,6 @@ export default function AiPage({ token, onLogout }) {
         body: JSON.stringify({ prompt: question }),
       });
 
-      
       let data;
       try {
         data = await res.json();
@@ -29,10 +28,10 @@ export default function AiPage({ token, onLogout }) {
         data = { answer: "Backend returned invalid response (HTML or error)" };
       }
 
-      setAnswer(data.answer || " No response from AI");
+      setAnswer(data.answer || "No response from AI");
       setQuestion("");
     } catch (err) {
-      setAnswer(" Error: " + err.message);
+      setAnswer("Error: " + err.message);
     }
 
     setLoading(false);
